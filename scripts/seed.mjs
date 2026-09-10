@@ -3,8 +3,8 @@ dotenv.config({ path: new URL('../.env.local', import.meta.url).pathname, quiet:
 
 import bcrypt from 'bcryptjs';
 
-const { getCustomerByPhone, createCustomer, upsertProduct } = await import('../lib/db.js');
-const pool = (await import('../lib/db.js')).default;
+const { getCustomerByPhone, createCustomer, upsertProduct, getPool } = await import('../lib/db.js');
+const pool = getPool();
 const { DEFAULT_PRODUCTS } = await import('../lib/constants.js');
 
 const adminPhone = process.env.ADMIN_PHONE;

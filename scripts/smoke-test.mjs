@@ -13,9 +13,9 @@ const {
   listCustomers,
 } = await import('../lib/db.js');
 const dbModule = await import('../lib/db.js');
-const pool = dbModule.default;
+await dbModule.ensureSchema();
+const pool = dbModule.getPool();
 
-await dbModule.ready;
 await pool.query('TRUNCATE payments, order_items, orders, products, customers RESTART IDENTITY CASCADE');
 
 const customer = await createCustomer({
