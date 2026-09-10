@@ -1,25 +1,30 @@
 import Link from 'next/link';
-import { DEFAULT_PRODUCTS, BUSINESS_TYPES } from '@/lib/constants';
+import { DEFAULT_PRODUCTS } from '@/lib/constants';
+import SiteHeader from '@/components/SiteHeader';
 
 const AUDIENCE = [
   {
     emoji: '🥪',
     title: 'ساندویچی / پروتئینی',
+    category: 'sandwich',
     desc: 'کاهو، گوجه، خیار، پیاز، قارچ و سیب‌زمینی همیشه تازه — بدون نیاز به رفتن به میدون برای چند کیلو جنس.',
   },
   {
     emoji: '🥕',
     title: 'آب‌میوه و آب‌هویج‌گیری',
+    category: 'juice',
     desc: 'هویج، پرتقال، سیب و کرفس با کیفیت یکنواخت، هر روز صبح آماده‌ی گرفتن آب.',
   },
   {
     emoji: '🍽️',
     title: 'رستوران‌ها',
+    category: 'restaurant',
     desc: 'سبزی خوردن، سبزی معطر، پیاز، سیر و صیفی‌جات مورد نیاز آشپزخانه، تحویل قبل از باز شدن رستوران.',
   },
   {
     emoji: '🏪',
     title: 'سایر کسب‌وکارهای غذایی',
+    category: 'all',
     desc: 'هر کسب‌وکاری که مصرف روزانه‌ی کم‌حجم داره ولی رفتن به میدون براش نمی‌صرفه.',
   },
 ];
@@ -49,25 +54,10 @@ const WHY_US = [
   'حساب و کتاب ساده — امکان خرید نسیه و تسویه دوره‌ای',
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <>
-      <header className="border-b border-[var(--border)] bg-[var(--background)]/90 backdrop-blur sticky top-0 z-10">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-[var(--brand-dark)]">🌿 تله‌بار</span>
-          <nav className="flex items-center gap-2 sm:gap-4">
-            <Link href="/login" className="text-sm sm:text-base text-[var(--foreground)] hover:text-[var(--brand)] px-2 py-2">
-              ورود
-            </Link>
-            <Link
-              href="/register"
-              className="text-sm sm:text-base bg-[var(--accent)] text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition"
-            >
-              ثبت‌نام
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1">
         {/* Hero */}
@@ -112,11 +102,16 @@ export default function HomePage() {
             </h2>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {AUDIENCE.map((a) => (
-                <div key={a.title} className="bg-white rounded-xl p-6 border border-[var(--border)] shadow-sm">
+                <Link
+                  key={a.title}
+                  href={`/category/${a.category}`}
+                  className="bg-white rounded-xl p-6 border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition block"
+                >
                   <div className="text-4xl">{a.emoji}</div>
                   <h3 className="mt-3 font-bold text-[var(--brand-dark)]">{a.title}</h3>
                   <p className="mt-2 text-sm text-[var(--muted)] leading-6">{a.desc}</p>
-                </div>
+                  <p className="mt-3 text-sm text-[var(--accent)] font-medium">دیدن محصولات و قیمت ←</p>
+                </Link>
               ))}
             </div>
           </div>
@@ -129,16 +124,17 @@ export default function HomePage() {
               نمونه‌ای از محصولات هر روزه
             </h2>
             <p className="mt-2 text-center text-[var(--muted)]">
-              لیست کامل و قیمت روز، بعد از ثبت‌نام در پنل سفارش قابل مشاهده‌ست.
+              قیمت‌ها برای همه قابل مشاهده‌ست — نیازی به ثبت‌نام برای دیدن‌شون نیست.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               {DEFAULT_PRODUCTS.map((p) => (
-                <span
+                <Link
                   key={p.name}
-                  className="bg-white border border-[var(--border)] rounded-full px-4 py-2 text-sm text-[var(--foreground)]"
+                  href={`/category/${p.category}`}
+                  className="bg-white border border-[var(--border)] rounded-full px-4 py-2 text-sm text-[var(--foreground)] hover:border-[var(--brand)] transition"
                 >
                   {p.emoji} {p.name}
-                </span>
+                </Link>
               ))}
             </div>
           </div>

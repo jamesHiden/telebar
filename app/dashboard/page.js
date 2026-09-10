@@ -1,9 +1,8 @@
-import Link from 'next/link';
 import { getCurrentCustomer } from '@/lib/dal';
 import { listActiveProducts, getCustomerOrders } from '@/lib/db';
 import { CUTOFF_HOUR } from '@/lib/constants';
 import OrderPanel from '@/components/OrderPanel';
-import LogoutButton from '@/components/LogoutButton';
+import SiteHeader from '@/components/SiteHeader';
 
 const fmt = (n) => Number(n).toLocaleString('en-US');
 const STATUS_FA = { pending: 'در انتظار تحویل', delivered: 'تحویل شده', cancelled: 'لغو شده' };
@@ -15,12 +14,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <header className="border-b border-[var(--border)] bg-white">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-lg font-bold text-[var(--brand-dark)]">🌿 تله‌بار</Link>
-          <LogoutButton />
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1 mx-auto max-w-3xl w-full px-4 sm:px-6 py-8 space-y-8">
         <div className="flex flex-wrap items-center justify-between gap-3">

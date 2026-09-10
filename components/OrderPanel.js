@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useTransition } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { submitOrder } from '@/app/actions/orders';
 import { CATEGORIES } from '@/lib/constants';
@@ -25,7 +26,7 @@ function groupByCategory(products, businessType) {
     .filter((g) => g.items.length > 0);
 }
 
-export default function OrderPanel({ products, cutoffHour, businessType }) {
+export default function OrderPanel({ products, cutoffHour, businessType, isGuest = false }) {
   const [quantities, setQuantities] = useState({});
   const [result, setResult] = useState(null);
   const [isPending, startTransition] = useTransition();
@@ -49,6 +50,10 @@ export default function OrderPanel({ products, cutoffHour, businessType }) {
 
   function handleSubmit() {
     if (cart.length === 0) return;
+    if (isGuest) {
+      setResult({ needsAuth: true });
+      return;
+    }
     const payload = cart.map((line) => ({ productId: line.product.id, quantity: line.quantity }));
     startTransition(async () => {
       const res = await submitOrder(payload);
@@ -130,6 +135,13 @@ export default function OrderPanel({ products, cutoffHour, businessType }) {
           <p className="text-sm text-[var(--brand-dark)]">
             سفارش #{result.orderId} با موفقیت ثبت شد ✅
             {result.pastCutoff && ' (برای فردا شب/پس‌فردا صبح تحویل داده میشه)'}
+          </p>
+        )}
+        {result?.needsAuth && (
+          <p className="text-sm text-[var(--brand-dark)]">
+            برای ثبت سفارش اول باید{' '}
+            <Link href="/register" className="underline font-medium">ثبت‌نام</Link> یا{' '}
+            <Link href="/login" className="underline font-medium">وارد</Link> بشید. دیدن قیمت‌ها نیازی به ثبت‌نام نداره.
           </p>
         )}
       </div>

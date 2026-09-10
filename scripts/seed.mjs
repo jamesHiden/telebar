@@ -35,7 +35,7 @@ if (!admin) {
 }
 
 for (const p of DEFAULT_PRODUCTS) {
-  await upsertProduct(p.name, p.price, p.qty, p.unit, p.category, p.emoji);
+  await upsertProduct(p.name, p.price, p.qty, p.unit, p.category, p.emoji, p.image || null);
 }
 console.log(`${DEFAULT_PRODUCTS.length} کالای پیش‌فرض ثبت شد ✅`);
 
