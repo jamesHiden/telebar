@@ -3,6 +3,7 @@
 import { verifyAdminSession } from '@/lib/dal';
 import { upsertProduct, deactivateProduct, markOrderDelivered, markAllPendingDelivered, recordPayment } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { DEFAULT_EMOJI } from '@/lib/constants';
 
 export async function upsertProductAction(prevState, formData) {
   await verifyAdminSession();
@@ -11,12 +12,15 @@ export async function upsertProductAction(prevState, formData) {
   const price = Number(formData.get('price'));
   const qty = Number(formData.get('qty'));
   const unit = String(formData.get('unit') || 'کیلوگرم').trim();
+  const category = String(formData.get('category') || 'all').trim();
+  const emoji = String(formData.get('emoji') || '').trim() || DEFAULT_EMOJI;
+  const imageUrl = String(formData.get('imageUrl') || '').trim() || null;
 
   if (!name || !price || price <= 0 || Number.isNaN(qty)) {
     return { error: 'مقادیر وارد شده معتبر نیست.' };
   }
 
-  await upsertProduct(name, price, qty, unit || 'کیلوگرم');
+  await upsertProduct(name, price, qty, unit || 'کیلوگرم', category, emoji, imageUrl);
   revalidatePath('/admin');
   return { success: true };
 }

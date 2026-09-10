@@ -36,7 +36,7 @@ export default async function DashboardPage() {
 
         <section>
           <h2 className="font-bold mb-3">لیست امروز</h2>
-          <OrderPanel products={products} cutoffHour={CUTOFF_HOUR} />
+          <OrderPanel products={products} cutoffHour={CUTOFF_HOUR} businessType={customer.business_type} />
         </section>
 
         <section>

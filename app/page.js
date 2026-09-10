@@ -137,7 +137,7 @@ export default function HomePage() {
                   key={p.name}
                   className="bg-white border border-[var(--border)] rounded-full px-4 py-2 text-sm text-[var(--foreground)]"
                 >
-                  {p.name}
+                  {p.emoji} {p.name}
                 </span>
               ))}
             </div>
