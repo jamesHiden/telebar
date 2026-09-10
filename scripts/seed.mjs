@@ -22,7 +22,7 @@ if (!admin) {
     phone: adminPhone,
     passwordHash,
     name: 'مدیر',
-    shopName: 'سبزی روز',
+    shopName: 'تله‌بار',
     businessType: 'other',
     address: '',
     lat: null,

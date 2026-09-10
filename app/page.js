@@ -54,7 +54,7 @@ export default function HomePage() {
     <>
       <header className="border-b border-[var(--border)] bg-[var(--background)]/90 backdrop-blur sticky top-0 z-10">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-[var(--brand-dark)]">🌿 سبزی روز</span>
+          <span className="text-xl font-bold text-[var(--brand-dark)]">🌿 تله‌بار</span>
           <nav className="flex items-center gap-2 sm:gap-4">
             <Link href="/login" className="text-sm sm:text-base text-[var(--foreground)] hover:text-[var(--brand)] px-2 py-2">
               ورود
@@ -168,7 +168,7 @@ export default function HomePage() {
         <section className="py-16">
           <div className="mx-auto max-w-4xl px-4 sm:px-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-center text-[var(--brand-dark)]">
-              چرا سبزی روز؟
+              چرا تله‌بار؟
             </h2>
             <ul className="mt-10 space-y-4">
               {WHY_US.map((w) => (
@@ -200,7 +200,7 @@ export default function HomePage() {
 
       <footer className="border-t border-[var(--border)] py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-[var(--muted)]">
-          <span>🌿 سبزی روز — تأمین روزانه‌ی سبزی و صیفی‌جات برای کسب‌وکارهای غذایی</span>
+          <span>🌿 تله‌بار — تأمین روزانه‌ی سبزی و صیفی‌جات برای کسب‌وکارهای غذایی</span>
           <span>مناطق تحت پوشش: اصفهان</span>
         </div>
       </footer>

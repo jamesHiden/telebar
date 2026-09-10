@@ -20,7 +20,7 @@ export default async function AdminPage() {
     <>
       <header className="border-b border-[var(--border)] bg-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-lg font-bold text-[var(--brand-dark)]">🌿 سبزی روز — پنل مدیریت</Link>
+          <Link href="/" className="text-lg font-bold text-[var(--brand-dark)]">🌿 تله‌بار — پنل مدیریت</Link>
           <LogoutButton />
         </div>
       </header>

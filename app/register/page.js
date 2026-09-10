@@ -21,7 +21,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <Link href="/" className="text-xl font-bold text-[var(--brand-dark)]">
-            🌿 سبزی روز
+            🌿 تله‌بار
           </Link>
           <h1 className="mt-3 text-2xl font-bold text-[var(--brand-dark)]">ثبت‌نام کسب‌وکار</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">برای شروع سفارش‌گیری روزانه، اطلاعات زیر رو تکمیل کنید</p>

@@ -17,7 +17,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="text-xl font-bold text-[var(--brand-dark)]">
-            🌿 سبزی روز
+            🌿 تله‌بار
           </Link>
           <h1 className="mt-3 text-2xl font-bold text-[var(--brand-dark)]">ورود</h1>
         </div>
