@@ -16,7 +16,7 @@ export default async function DashboardPage() {
     <>
       <SiteHeader />
 
-      <main className="flex-1 mx-auto max-w-3xl w-full px-4 sm:px-6 py-8 space-y-8">
+      <main className="flex-1 mx-auto max-w-6xl w-full px-4 sm:px-6 py-8 space-y-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-xl font-bold">خوش اومدید، {customer.name}</h1>
