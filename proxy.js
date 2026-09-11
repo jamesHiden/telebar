@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { decrypt } from '@/lib/session';
 
-const protectedPrefixes = ['/dashboard', '/admin'];
+const protectedPrefixes = ['/dashboard', '/admin', '/complete-profile'];
 const authPages = ['/login', '/register'];
 
 export async function proxy(req) {
@@ -13,7 +13,9 @@ export async function proxy(req) {
   const session = await decrypt(cookie);
 
   if (isProtected && !session?.customerId) {
-    return NextResponse.redirect(new URL('/login', req.nextUrl));
+    const loginUrl = new URL('/login', req.nextUrl);
+    loginUrl.searchParams.set('next', path);
+    return NextResponse.redirect(loginUrl);
   }
 
   if (path.startsWith('/admin') && session && !session.isAdmin) {

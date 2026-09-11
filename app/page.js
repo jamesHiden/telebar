@@ -10,8 +10,8 @@ const fmt = (n) => Number(n).toLocaleString('en-US');
 const STEPS = [
   {
     n: '۱',
-    title: 'ثبت‌نام کنید',
-    desc: 'نام مغازه، نوع کسب‌وکار و آدرس دقیق‌تون رو وارد می‌کنید.',
+    title: 'با شماره‌تون وارد بشید',
+    desc: 'فقط با یه کد پیامکی — بدون رمز عبور، بدون فرم طولانی.',
   },
   {
     n: '۲',
@@ -85,7 +85,7 @@ export default async function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/register"
+                href="/login"
                 className="bg-[var(--accent)] text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 hover:scale-105 transition-all"
               >
                 همین حالا ثبت‌نام کنید
@@ -271,7 +271,7 @@ export default async function HomePage() {
                   همین امروز ثبت‌نام کنید و فردا صبح اولین سفارش‌تون رو تحویل بگیرید.
                 </p>
                 <Link
-                  href="/register"
+                  href="/login"
                   className="relative mt-6 inline-block bg-[var(--accent)] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 hover:scale-105 transition-all"
                 >
                   ثبت‌نام رایگان

@@ -20,8 +20,8 @@ export default async function DashboardPage() {
       <main className="flex-1 mx-auto max-w-6xl w-full px-4 sm:px-6 py-8 space-y-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-xl font-bold">خوش اومدید، {customer.name}</h1>
-            <p className="text-sm text-[var(--muted)]">{customer.shop_name}</p>
+            <h1 className="text-xl font-bold">خوش اومدید{customer.name ? `، ${customer.name}` : ''}</h1>
+            <p className="text-sm text-[var(--muted)]">{customer.shop_name || customer.phone}</p>
           </div>
           <div className="bg-white border border-[var(--border)] rounded-xl px-5 py-3 text-center">
             <p className="text-xs text-[var(--muted)]">مانده حساب</p>

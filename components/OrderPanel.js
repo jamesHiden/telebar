@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { submitOrder } from '@/app/actions/orders';
 import { CATEGORIES } from '@/lib/constants';
 import ProductCard from '@/components/ProductCard';
@@ -38,6 +38,7 @@ export default function OrderPanel({
   const [result, setResult] = useState(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
 
   const cart = useMemo(
     () =>
@@ -67,6 +68,10 @@ export default function OrderPanel({
     const payload = cart.map((line) => ({ productId: line.product.id, quantity: line.quantity }));
     startTransition(async () => {
       const res = await submitOrder(payload);
+      if (res.needsProfile) {
+        router.push(`/complete-profile?next=${encodeURIComponent(pathname)}`);
+        return;
+      }
       setResult(res);
       if (res.orderId) {
         setQuantities({});
@@ -116,8 +121,10 @@ export default function OrderPanel({
       {result?.needsAuth && (
         <div className="mt-6 bg-white border border-[var(--border)] rounded-xl p-4 text-sm text-[var(--brand-dark)]">
           برای ثبت سفارش اول باید{' '}
-          <Link href="/register" className="underline font-medium">ثبت‌نام</Link> یا{' '}
-          <Link href="/login" className="underline font-medium">وارد</Link> بشید. دیدن قیمت‌ها نیازی به ثبت‌نام نداره.
+          <Link href={`/login?next=${encodeURIComponent(pathname)}`} className="underline font-medium">
+            وارد بشید
+          </Link>
+          . دیدن قیمت‌ها نیازی به ثبت‌نام نداره.
         </div>
       )}
       {result?.orderId && (

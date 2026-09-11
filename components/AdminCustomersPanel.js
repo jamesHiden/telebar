@@ -31,7 +31,9 @@ export default function AdminCustomersPanel({ customers }) {
       {customers.map((c) => (
         <div key={c.id} className="flex flex-wrap items-center justify-between gap-3 p-4 text-sm">
           <div>
-            <p className="font-medium">{c.name} — {c.shop_name}</p>
+            <p className="font-medium">
+              {c.name || c.phone} — {c.shop_name || <span className="text-[var(--accent)]">پروفایل تکمیل‌نشده</span>}
+            </p>
             <p className="text-[var(--muted)]">{businessTypeLabel(c.business_type)} — {c.phone}</p>
           </div>
           <div className="flex items-center gap-3">

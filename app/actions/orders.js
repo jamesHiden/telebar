@@ -1,11 +1,16 @@
 'use server';
 
 import { verifySession } from '@/lib/dal';
-import { getProduct, createOrder, getLastOrderItems, listActiveProducts } from '@/lib/db';
+import { getProduct, createOrder, getLastOrderItems, listActiveProducts, getCustomerById, isProfileComplete } from '@/lib/db';
 import { CUTOFF_HOUR } from '@/lib/constants';
 
 export async function submitOrder(cart) {
   const session = await verifySession();
+
+  const customer = await getCustomerById(session.customerId);
+  if (!isProfileComplete(customer)) {
+    return { needsProfile: true };
+  }
 
   if (!Array.isArray(cart) || cart.length === 0) {
     return { error: 'سبد سفارش خالیه.' };
@@ -38,6 +43,11 @@ export async function submitOrder(cart) {
 
 export async function repeatLastOrder() {
   const session = await verifySession();
+
+  const customer = await getCustomerById(session.customerId);
+  if (!isProfileComplete(customer)) {
+    return { needsProfile: true };
+  }
 
   const lastItems = await getLastOrderItems(session.customerId);
   if (lastItems.length === 0) {

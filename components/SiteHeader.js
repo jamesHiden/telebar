@@ -45,20 +45,17 @@ export default async function SiteHeader() {
               href={customer.is_admin ? '/admin' : '/dashboard'}
               className="text-sm font-medium text-[var(--brand-dark)] hover:underline whitespace-nowrap"
             >
-              سلام، {customer.name} 👋
+              سلام، {customer.name || customer.phone} 👋
             </Link>
             <LogoutButton />
           </div>
         ) : (
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-            <Link href="/login" className="text-sm sm:text-base text-[var(--foreground)] hover:text-[var(--brand)] px-2 py-2">
-              ورود
-            </Link>
             <Link
-              href="/register"
-              className="text-sm sm:text-base bg-[var(--accent)] text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition"
+              href="/login"
+              className="text-sm sm:text-base bg-[var(--accent)] text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition whitespace-nowrap"
             >
-              ثبت‌نام
+              ورود / ثبت‌نام
             </Link>
           </div>
         )}

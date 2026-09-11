@@ -12,6 +12,10 @@ export default function RepeatOrderButton() {
   function handleClick() {
     startTransition(async () => {
       const res = await repeatLastOrder();
+      if (res.needsProfile) {
+        router.push('/complete-profile?next=/dashboard');
+        return;
+      }
       setResult(res);
       if (res.orderId) router.refresh();
     });
