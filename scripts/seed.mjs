@@ -39,4 +39,14 @@ for (const p of DEFAULT_PRODUCTS) {
 }
 console.log(`${DEFAULT_PRODUCTS.length} کالای پیش‌فرض ثبت شد ✅`);
 
+const DISCONTINUED = ['سبزی خوردن', 'سبزی قورمه', 'ریحان'];
+const { rows: toRemove } = await pool.query(
+  `SELECT id, name FROM products WHERE name = ANY($1::text[]) AND active`,
+  [DISCONTINUED]
+);
+for (const row of toRemove) {
+  await pool.query('UPDATE products SET active = FALSE WHERE id = $1', [row.id]);
+  console.log(`محصول حذف‌شده غیرفعال شد: ${row.name}`);
+}
+
 await pool.end();
