@@ -10,9 +10,9 @@ export default function Reveal({ children, className = '', delay = 0 }) {
     const el = ref.current;
     if (!el) return;
 
-    // اگه همون لحظه‌ی mount نزدیک دیده‌شدنه، منتظر observer نمون
+    // اگه همون لحظه‌ی mount نسبتاً نزدیک دیده‌شدنه (تا ۲.۵ صفحه پایین‌تر)، منتظر observer نمون
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 1.2) {
+    if (rect.top < window.innerHeight * 2.5) {
       setVisible(true);
       return;
     }
@@ -24,12 +24,12 @@ export default function Reveal({ children, className = '', delay = 0 }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.01, rootMargin: '200px 0px' }
+      { threshold: 0.01, rootMargin: '400px 0px' }
     );
     observer.observe(el);
 
-    // شبکه‌ی ایمنی: اگه به هر دلیلی observer فایر نشد، محتوا بعد از یه مدت کوتاه هرطور شده نمایش داده بشه
-    const fallback = setTimeout(() => setVisible(true), 1200);
+    // شبکه‌ی ایمنی: اگه به هر دلیلی observer فایر نشد (مثلاً ابزار اسکرین‌شات)، محتوا سریع نمایش داده بشه
+    const fallback = setTimeout(() => setVisible(true), 300);
 
     return () => {
       observer.disconnect();

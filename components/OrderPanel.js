@@ -26,7 +26,14 @@ function groupByCategory(products, businessType) {
     .filter((g) => g.items.length > 0);
 }
 
-export default function OrderPanel({ products, cutoffHour, businessType, isGuest = false }) {
+export default function OrderPanel({
+  products,
+  cutoffHour,
+  businessType,
+  isGuest = false,
+  flat = false,
+  emptyMessage = 'فعلاً کالایی برای امروز ثبت نشده. کمی بعد دوباره سر بزنید.',
+}) {
   const [quantities, setQuantities] = useState({});
   const [result, setResult] = useState(null);
   const [isPending, startTransition] = useTransition();
@@ -41,7 +48,10 @@ export default function OrderPanel({ products, cutoffHour, businessType, isGuest
   );
 
   const total = cart.reduce((sum, line) => sum + line.quantity * line.product.price, 0);
-  const groups = useMemo(() => groupByCategory(products, businessType), [products, businessType]);
+  const groups = useMemo(
+    () => (flat ? [{ value: 'flat', label: null, items: products, isPrimary: false }] : groupByCategory(products, businessType)),
+    [products, businessType, flat]
+  );
 
   function handleQuantityChange(productId, value) {
     setQuantities((prev) => ({ ...prev, [productId]: value }));
@@ -68,7 +78,7 @@ export default function OrderPanel({ products, cutoffHour, businessType, isGuest
   if (products.length === 0) {
     return (
       <div className="bg-white border border-[var(--border)] rounded-xl p-6 text-center text-[var(--muted)]">
-        فعلاً کالایی برای امروز ثبت نشده. کمی بعد دوباره سر بزنید.
+        {emptyMessage}
       </div>
     );
   }
@@ -78,15 +88,17 @@ export default function OrderPanel({ products, cutoffHour, businessType, isGuest
       <div className="space-y-8">
         {groups.map((g) => (
           <div key={g.value}>
-            <h3
-              className={
-                g.isPrimary
-                  ? 'text-sm font-bold text-[var(--accent)] mb-3'
-                  : 'text-sm font-bold text-[var(--muted)] mb-3'
-              }
-            >
-              {g.label}
-            </h3>
+            {g.label && (
+              <h3
+                className={
+                  g.isPrimary
+                    ? 'text-sm font-bold text-[var(--accent)] mb-3'
+                    : 'text-sm font-bold text-[var(--muted)] mb-3'
+                }
+              >
+                {g.label}
+              </h3>
+            )}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
               {g.items.map((p) => (
                 <ProductCard

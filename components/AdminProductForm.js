@@ -52,6 +52,11 @@ export default function AdminProductForm({ products }) {
           اگه لینک عکس بذارید همون نشون داده میشه، وگرنه ایموجی به‌جاش نمایش داده میشه.
         </p>
 
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" name="bulk" className="w-4 h-4" />
+          توی «خرید عمده» هم نشون داده بشه
+        </label>
+
         {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
         {state?.success && <p className="text-sm text-[var(--brand)]">ثبت شد ✅</p>}
         <button

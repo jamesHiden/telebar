@@ -1,8 +1,9 @@
 import { getCurrentCustomer } from '@/lib/dal';
 import { listActiveProducts, getCustomerOrders } from '@/lib/db';
-import { CUTOFF_HOUR } from '@/lib/constants';
+import { CUTOFF_HOUR, businessTypeCategory } from '@/lib/constants';
 import OrderPanel from '@/components/OrderPanel';
 import SiteHeader from '@/components/SiteHeader';
+import RepeatOrderButton from '@/components/RepeatOrderButton';
 
 const fmt = (n) => Number(n).toLocaleString('en-US');
 const STATUS_FA = { pending: 'در انتظار تحویل', delivered: 'تحویل شده', cancelled: 'لغو شده' };
@@ -28,9 +29,22 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {orders.length > 0 && (
+          <div className="bg-[var(--brand-light)] border border-[var(--brand)]/30 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-[var(--brand-dark)]">
+              هر روز همون چیزو می‌خرید؟ لازم نیست دوباره از اول انتخاب کنید.
+            </p>
+            <RepeatOrderButton />
+          </div>
+        )}
+
         <section>
           <h2 className="font-bold mb-3">لیست امروز</h2>
-          <OrderPanel products={products} cutoffHour={CUTOFF_HOUR} businessType={customer.business_type} />
+          <OrderPanel
+            products={products}
+            cutoffHour={CUTOFF_HOUR}
+            businessType={businessTypeCategory(customer.business_type)}
+          />
         </section>
 
         <section>

@@ -1,35 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { DEFAULT_PRODUCTS } from '@/lib/constants';
+import { DEFAULT_PRODUCTS, BUSINESS_TYPES, CUTOFF_HOUR } from '@/lib/constants';
+import { getBulkProducts } from '@/lib/db';
 import SiteHeader from '@/components/SiteHeader';
 import Reveal from '@/components/Reveal';
 
-const AUDIENCE = [
-  {
-    emoji: '🥪',
-    title: 'ساندویچی / پروتئینی',
-    category: 'sandwich',
-    desc: 'کاهو، گوجه، خیار، پیاز، قارچ و سیب‌زمینی همیشه تازه — بدون نیاز به رفتن به میدون برای چند کیلو جنس.',
-  },
-  {
-    emoji: '🥕',
-    title: 'آب‌میوه و آب‌هویج‌گیری',
-    category: 'juice',
-    desc: 'هویج، پرتقال، سیب و کرفس با کیفیت یکنواخت، هر روز صبح آماده‌ی گرفتن آب.',
-  },
-  {
-    emoji: '🍽️',
-    title: 'رستوران‌ها',
-    category: 'restaurant',
-    desc: 'سبزی خوردن، سبزی معطر، پیاز، سیر و صیفی‌جات مورد نیاز آشپزخانه، تحویل قبل از باز شدن رستوران.',
-  },
-  {
-    emoji: '🏪',
-    title: 'سایر کسب‌وکارهای غذایی',
-    category: 'all',
-    desc: 'هر کسب‌وکاری که مصرف روزانه‌ی کم‌حجم داره ولی رفتن به میدون براش نمی‌صرفه.',
-  },
-];
+const fmt = (n) => Number(n).toLocaleString('en-US');
 
 const STEPS = [
   {
@@ -52,18 +28,27 @@ const STEPS = [
 const WHY_US = [
   { icon: '⏱️', text: 'صرفه‌جویی در وقت و نیروی کار — دیگه لازم نیست کسی صبح زود بره میدون' },
   { icon: '💳', text: 'قیمت شفاف و به‌روز — هر روز قیمت واقعی بازار رو آنلاین می‌بینید' },
-  { icon: '✅', text: 'کیفیت یکنواخت — کالا از قبل انتخاب و دسته‌بندی شده' },
-  { icon: '📒', text: 'حساب و کتاب ساده — امکان خرید نسیه و تسویه دوره‌ای' },
+  { icon: '🚚', text: 'مستقیم از میدان میوه و تره‌بار مرکزی — بدون واسطه‌ی اضافه' },
+];
+
+const QUALITY_CHECKLIST = [
+  'محصول درجه‌بندی‌شده',
+  'بدون محصول خراب یا له‌شده',
+  'وزن دقیق',
+  'بسته‌بندی تمیز',
+  'امکان مرجوعی در صورت مغایرت',
 ];
 
 const HERO_PHOTOS = [
   { src: '/products/gojeh.jpg', alt: 'گوجه‌فرنگی', className: 'top-0 right-6 w-28 sm:w-36 rotate-[-8deg] animate-float', z: 30 },
   { src: '/products/havij.jpg', alt: 'هویج', className: 'top-20 left-0 w-24 sm:w-32 rotate-[6deg] animate-float-slow', z: 20 },
-  { src: '/products/bademjan.jpg', alt: 'بادمجان', className: 'bottom-6 right-16 w-24 sm:w-32 rotate-[10deg] animate-float-slow', z: 20 },
+  { src: '/products/bademjan.png', alt: 'بادمجان', className: 'bottom-6 right-16 w-24 sm:w-32 rotate-[10deg] animate-float-slow', z: 20 },
   { src: '/products/sib.jpg', alt: 'سیب قرمز', className: 'bottom-0 left-10 w-24 sm:w-28 rotate-[-6deg] animate-float', z: 10 },
 ];
 
 export default async function HomePage() {
+  const bulkProducts = await getBulkProducts();
+
   return (
     <>
       <SiteHeader />
@@ -87,16 +72,16 @@ export default async function HomePage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--brand)] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--brand)]" />
               </span>
-              فعال در اصفهان — همین حالا سفارش بگیرید
+              فعال در اصفهان — ارسال از میدان میوه و تره‌بار مرکزی
             </span>
 
             <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-[var(--brand-dark)]">
-              سبزی و صیفی‌جات تازه،
-              <br /> هر روز صبح دم مغازه‌تون
+              پخش عمده‌ی میوه و تره‌بار،
+              <br /> مستقیم از میدان مرکزی
             </h1>
             <p className="mt-5 text-base sm:text-lg text-[var(--muted)] leading-8 max-w-lg">
-              دیگه لازم نیست برای دو تا سبد قارچ یا چند کیلو هویج تا میدون تره‌بار برید و وقت
-              بذارید. شب قبل سفارش بدید، صبح زود تحویل بگیرید — با قیمت شفاف و کیفیت تضمینی.
+              تأمین تخصصی برای رستوران‌ها، هایپرمارکت‌ها، آبمیوه‌بستنی‌فروشی‌ها و قنادی‌ها — و عرضه
+              به ارگان‌های دولتی و خصوصی. بدون واسطه، مستقیم از میدان میوه و تره‌بار مرکزی به مغازه‌ی شما.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -106,7 +91,7 @@ export default async function HomePage() {
                 همین حالا ثبت‌نام کنید
               </Link>
               <Link
-                href="#how-it-works"
+                href="#chi-kareii"
                 className="border border-[var(--border)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--brand-light)] transition"
               >
                 چطور کار می‌کند؟
@@ -124,17 +109,30 @@ export default async function HomePage() {
                 <Image src={p.src} alt={p.alt} fill sizes="200px" className="object-cover" />
               </div>
             ))}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-[var(--brand)] text-white flex flex-col items-center justify-center shadow-2xl">
-                <span className="text-2xl sm:text-3xl font-extrabold">۲۲+</span>
-                <span className="text-[10px] sm:text-xs">محصول تازه</span>
-              </div>
+          </div>
+        </section>
+
+        {/* چی کاره‌ای؟ */}
+        <section id="chi-kareii" className="py-10 bg-[var(--brand-light)]/60 border-y border-[var(--border)]">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2 className="text-center text-lg font-bold text-[var(--brand-dark)] mb-6">چی کاره‌ای؟</h2>
+            <div className="flex flex-wrap justify-center gap-3">
+              {BUSINESS_TYPES.map((t) => (
+                <Link
+                  key={t.value}
+                  href={`/category/${t.category}`}
+                  className="group flex items-center gap-2 bg-white border border-[var(--border)] rounded-full pl-5 pr-4 py-3 hover:border-[var(--brand)] hover:shadow-md hover:-translate-y-0.5 transition-all"
+                >
+                  <span className="text-2xl transition-transform group-hover:scale-110">{t.emoji}</span>
+                  <span className="font-medium text-[var(--foreground)]">{t.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Marquee */}
-        <div className="border-y border-[var(--border)] bg-[var(--brand-light)]/50 py-3 overflow-hidden">
+        <div className="border-b border-[var(--border)] bg-[var(--brand-light)]/30 py-3 overflow-hidden">
           <div className="flex whitespace-nowrap animate-marquee">
             {[...DEFAULT_PRODUCTS, ...DEFAULT_PRODUCTS].map((p, i) => (
               <span key={i} className="mx-4 text-sm text-[var(--brand-dark)] font-medium">
@@ -144,59 +142,51 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Audience */}
-        <section className="bg-[var(--brand-light)]/60 py-16">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <Reveal>
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-[var(--brand-dark)]">
-                مخصوص کسب‌وکارهایی مثل شما
-              </h2>
-            </Reveal>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {AUDIENCE.map((a, i) => (
-                <Reveal key={a.title} delay={i * 100}>
-                  <Link
-                    href={`/category/${a.category}`}
-                    className="group bg-white rounded-xl p-6 border border-[var(--border)] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 block h-full"
-                  >
-                    <div className="text-4xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
-                      {a.emoji}
-                    </div>
-                    <h3 className="mt-3 font-bold text-[var(--brand-dark)]">{a.title}</h3>
-                    <p className="mt-2 text-sm text-[var(--muted)] leading-6">{a.desc}</p>
-                    <p className="mt-3 text-sm text-[var(--accent)] font-medium">
-                      دیدن محصولات و قیمت{' '}
-                      <span className="inline-block transition-transform group-hover:-translate-x-1">←</span>
-                    </p>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Products */}
+        {/* قیمت امروز */}
         <section className="py-16">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
             <Reveal>
               <h2 className="text-2xl sm:text-3xl font-bold text-center text-[var(--brand-dark)]">
-                نمونه‌ای از محصولات هر روزه
+                قیمت امروز تله‌بار
               </h2>
               <p className="mt-2 text-center text-[var(--muted)]">
-                قیمت‌ها برای همه قابل مشاهده‌ست — نیازی به ثبت‌نام برای دیدن‌شون نیست.
+                قیمت‌ها هر روز صبح به‌روزرسانی می‌شوند.
               </p>
             </Reveal>
             <Reveal delay={150}>
-              <div className="mt-10 flex flex-wrap justify-center gap-3">
-                {DEFAULT_PRODUCTS.map((p) => (
-                  <Link
-                    key={p.name}
-                    href={`/category/${p.category}`}
-                    className="bg-white border border-[var(--border)] rounded-full px-4 py-2 text-sm text-[var(--foreground)] hover:border-[var(--brand)] hover:-translate-y-0.5 hover:shadow-sm transition-all"
-                  >
-                    {p.emoji} {p.name}
-                  </Link>
+              <div className="mt-8 bg-white border border-[var(--border)] rounded-2xl divide-y divide-[var(--border)] overflow-hidden">
+                {bulkProducts.map((p) => (
+                  <div key={p.id} className="flex items-center justify-between px-5 py-3.5">
+                    <span className="font-medium">
+                      {p.emoji} {p.name}
+                    </span>
+                    <span className="text-[var(--brand-dark)] font-bold">
+                      {fmt(p.price)} تومان{' '}
+                      <span className="text-[var(--muted)] font-normal text-sm">/ {p.unit}</span>
+                    </span>
+                  </div>
                 ))}
+              </div>
+              <div className="mt-6 text-center">
+                <Link href="/category/all" className="text-[var(--accent)] font-medium hover:underline">
+                  دیدن همه‌ی محصولات و قیمت‌ها ←
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* تحویل صبح */}
+        <section className="py-16 bg-[var(--brand-dark)]">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
+            <Reveal>
+              <div className="text-center">
+                <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                  ⏰ سفارش امشب ← تحویل فردا صبح
+                </h2>
+                <p className="mt-4 text-white/80 text-base sm:text-lg">
+                  تا ساعت {CUTOFF_HOUR}:۰۰ سفارش بدید، قبل از باز شدن مغازه، جنس تحویل بگیرید.
+                </p>
               </div>
             </Reveal>
           </div>
@@ -235,7 +225,7 @@ export default async function HomePage() {
                 چرا تله‌بار؟
               </h2>
             </Reveal>
-            <div className="mt-10 grid sm:grid-cols-2 gap-4">
+            <div className="mt-10 grid sm:grid-cols-3 gap-4">
               {WHY_US.map((w, i) => (
                 <Reveal key={w.text} delay={i * 100}>
                   <div className="flex items-start gap-3 bg-white border border-[var(--border)] rounded-xl p-4 h-full hover:shadow-md transition-shadow">
@@ -245,6 +235,20 @@ export default async function HomePage() {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal delay={300}>
+              <div className="mt-6 bg-[var(--brand-light)] border border-[var(--brand)]/30 rounded-xl p-6">
+                <h3 className="font-bold text-[var(--brand-dark)]">کیفیت تله‌بار یعنی:</h3>
+                <ul className="mt-3 grid sm:grid-cols-2 gap-2">
+                  {QUALITY_CHECKLIST.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-[var(--foreground)]">
+                      <span className="text-[var(--brand)] font-bold">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -280,7 +284,7 @@ export default async function HomePage() {
 
       <footer className="border-t border-[var(--border)] py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-[var(--muted)]">
-          <span>🌿 تله‌بار — تأمین روزانه‌ی سبزی و صیفی‌جات برای کسب‌وکارهای غذایی</span>
+          <span>🌿 تله‌بار — پخش عمده‌ی میوه و تره‌بار، مستقیم از میدان مرکزی</span>
           <span>مناطق تحت پوشش: اصفهان</span>
         </div>
       </footer>

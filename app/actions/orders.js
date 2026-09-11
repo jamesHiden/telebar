@@ -1,7 +1,7 @@
 'use server';
 
 import { verifySession } from '@/lib/dal';
-import { getProduct, createOrder } from '@/lib/db';
+import { getProduct, createOrder, getLastOrderItems, listActiveProducts } from '@/lib/db';
 import { CUTOFF_HOUR } from '@/lib/constants';
 
 export async function submitOrder(cart) {
@@ -34,4 +34,43 @@ export async function submitOrder(cart) {
   const pastCutoff = new Date().getHours() >= CUTOFF_HOUR;
 
   return { orderId, total, pastCutoff };
+}
+
+export async function repeatLastOrder() {
+  const session = await verifySession();
+
+  const lastItems = await getLastOrderItems(session.customerId);
+  if (lastItems.length === 0) {
+    return { error: 'هنوز سفارشی ثبت نکردید که بشه تکرارش کرد.' };
+  }
+
+  const activeProducts = await listActiveProducts();
+  const byName = new Map(activeProducts.map((p) => [p.name, p]));
+
+  const items = [];
+  const skipped = [];
+  for (const line of lastItems) {
+    const product = byName.get(line.product_name);
+    if (!product) {
+      skipped.push(line.product_name);
+      continue;
+    }
+    items.push({
+      name: product.name,
+      unit: product.unit,
+      unitPrice: product.price,
+      quantity: line.quantity,
+      subtotal: Math.round(line.quantity * product.price),
+    });
+  }
+
+  if (items.length === 0) {
+    return { error: 'محصولات سفارش قبلی دیگه موجود نیستن.' };
+  }
+
+  const orderId = await createOrder(session.customerId, items);
+  const total = items.reduce((sum, i) => sum + i.subtotal, 0);
+  const pastCutoff = new Date().getHours() >= CUTOFF_HOUR;
+
+  return { orderId, total, pastCutoff, skipped };
 }
