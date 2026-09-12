@@ -41,9 +41,9 @@ const QUALITY_CHECKLIST = [
 
 const HERO_PHOTOS = [
   { src: '/products/gojeh.jpg', alt: 'گوجه‌فرنگی', className: 'top-0 right-6 w-28 sm:w-36 rotate-[-8deg] animate-float', z: 30 },
-  { src: '/products/havij.jpg', alt: 'هویج', className: 'top-20 left-0 w-24 sm:w-32 rotate-[6deg] animate-float-slow', z: 20 },
+  { src: '/products/havij.png', alt: 'هویج', className: 'top-20 left-0 w-24 sm:w-32 rotate-[6deg] animate-float-slow', z: 20 },
   { src: '/products/bademjan.png', alt: 'بادمجان', className: 'bottom-6 right-16 w-24 sm:w-32 rotate-[10deg] animate-float-slow', z: 20 },
-  { src: '/products/sib.jpg', alt: 'سیب قرمز', className: 'bottom-0 left-10 w-24 sm:w-28 rotate-[-6deg] animate-float', z: 10 },
+  { src: '/products/sib.png', alt: 'سیب قرمز', className: 'bottom-0 left-10 w-24 sm:w-28 rotate-[-6deg] animate-float', z: 10 },
 ];
 
 export default async function HomePage() {
